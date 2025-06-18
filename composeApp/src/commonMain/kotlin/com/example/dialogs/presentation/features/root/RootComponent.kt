@@ -1,6 +1,12 @@
 package com.example.dialogs.presentation.features.root
 
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.router.slot.ChildSlot
+import com.arkivanov.decompose.router.slot.SlotNavigation
+import com.arkivanov.decompose.router.slot.activate
+import com.arkivanov.decompose.router.slot.child
+import com.arkivanov.decompose.router.slot.childSlot
+import com.arkivanov.decompose.router.slot.dismiss
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
@@ -8,16 +14,26 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
+import com.example.dialogs.presentation.dialogs.DialogComponent
+import com.example.dialogs.presentation.dialogs.DialogHolder
+import com.example.dialogs.presentation.dialogs.DialogModel
+import com.example.dialogs.presentation.dialogs.info.DefaultInfoDialogComponent
+import com.example.dialogs.presentation.dialogs.toast.DefaultToastComponent
 import com.example.dialogs.presentation.features.login.DefaultLoginComponent
 import com.example.dialogs.presentation.features.login.LoginComponent
 import com.example.dialogs.presentation.features.main.DefaultMainComponent
 import com.example.dialogs.presentation.features.main.MainComponent
 import com.example.dialogs.presentation.features.welcome.DefaultWelcomeComponent
 import com.example.dialogs.presentation.features.welcome.WelcomeComponent
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import org.koin.core.component.KoinComponent
 
-interface RootComponent {
+interface RootComponent : DialogHolder {
     val childStack: Value<ChildStack<*, Child>>
 
     sealed interface Child {
@@ -31,6 +47,8 @@ class DefaultRootComponent(
     componentContext: ComponentContext,
     private val onMinimize: () -> Unit = {},
 ) : RootComponent, ComponentContext by componentContext, KoinComponent {
+    private val navigationScope = coroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+
     private val navigation = StackNavigation<Config>()
 
     override val childStack: Value<ChildStack<*, RootComponent.Child>> =
@@ -41,6 +59,65 @@ class DefaultRootComponent(
             handleBackButton = true,
             childFactory = ::createChild
         )
+
+
+    private val dialogNavigation = SlotNavigation<DialogConfig>()
+
+    override val dialog: Value<ChildSlot<*, DialogComponent>> =
+        childSlot(
+            source = dialogNavigation,
+            handleBackButton = true,
+            serializer = null,
+            childFactory = ::createDialog,
+        )
+
+    override fun showDialog(model: DialogModel) {
+        if (dialog.child != null) return
+
+        when (model) {
+            is DialogModel.Toast -> showToast(model)
+            is DialogModel.InfoDialog -> showInfoDialog(model)
+            is DialogModel.ConfirmationDialog -> TODO()
+            is DialogModel.BottomSliderDialog -> TODO()
+        }
+    }
+
+    private fun showToast(model: DialogModel.Toast) {
+        navigationScope.launch {
+            dialogNavigation.activate(DialogConfig.Toast(toast = model))
+            delay(model.duration)
+            dialogNavigation.dismiss { isSuccess ->
+                if (isSuccess) model.onDismiss()
+            }
+        }
+    }
+
+    private fun showInfoDialog(model: DialogModel.InfoDialog) {
+        dialogNavigation.activate(
+            DialogConfig.InfoDialog(infoDialog = model)
+        )
+    }
+
+    private fun createDialog(
+        config: DialogConfig,
+        componentContext: ComponentContext,
+    ): DialogComponent =
+        when (config) {
+            is DialogConfig.InfoDialog -> DefaultInfoDialogComponent(
+                componentContext = componentContext,
+                onDismiss = {
+                    dialogNavigation.dismiss { isSuccess ->
+                        if (isSuccess) config.infoDialog.onDismiss()
+                    }
+                },
+                infoDialog = config.infoDialog,
+            )
+
+            is DialogConfig.Toast -> DefaultToastComponent(
+                componentContext = componentContext,
+                toast = config.toast,
+            )
+        }
 
     private fun createChild(
         config: Config,
@@ -87,5 +164,11 @@ class DefaultRootComponent(
 
         @Serializable
         data object Main : Config
+    }
+
+    private sealed interface DialogConfig {
+        class Toast(val toast: DialogModel.Toast) : DialogConfig
+
+        class InfoDialog(val infoDialog: DialogModel.InfoDialog) : DialogConfig
     }
 }
