@@ -13,6 +13,8 @@ import com.example.dialogs.presentation.dialogs.confirmation.ConfirmationCompone
 import com.example.dialogs.presentation.dialogs.confirmation.ConfirmationPane
 import com.example.dialogs.presentation.dialogs.info.InfoDialogComponent
 import com.example.dialogs.presentation.dialogs.info.InfoDialogPane
+import com.example.dialogs.presentation.dialogs.slider.BottomSliderComponent
+import com.example.dialogs.presentation.dialogs.slider.BottomSliderPane
 import com.example.dialogs.presentation.dialogs.toast.ToastComponent
 import com.example.dialogs.presentation.dialogs.toast.ToastPane
 import com.example.dialogs.presentation.features.login.LoginPage
@@ -61,6 +63,10 @@ fun RootPage(
             )
 
             is ConfirmationComponent -> ConfirmationPane(
+                component = dialogComponent,
+            )
+
+            is BottomSliderComponent -> BottomSliderPane(
                 component = dialogComponent,
             )
         }

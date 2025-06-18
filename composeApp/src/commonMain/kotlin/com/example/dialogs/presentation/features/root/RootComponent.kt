@@ -20,6 +20,7 @@ import com.example.dialogs.presentation.dialogs.DialogHolder
 import com.example.dialogs.presentation.dialogs.DialogModel
 import com.example.dialogs.presentation.dialogs.confirmation.DefaultConfirmationComponent
 import com.example.dialogs.presentation.dialogs.info.DefaultInfoDialogComponent
+import com.example.dialogs.presentation.dialogs.slider.DefaultBottomSliderComponent
 import com.example.dialogs.presentation.dialogs.toast.DefaultToastComponent
 import com.example.dialogs.presentation.features.login.DefaultLoginComponent
 import com.example.dialogs.presentation.features.login.LoginComponent
@@ -143,7 +144,16 @@ class DefaultRootComponent(
                 confirmationDialog = config.confirmationDialog,
             )
 
-            is DialogConfig.BottomSlider -> TODO()
+            // TODO Tty to extract onDismiss to separate function cause they are same
+            is DialogConfig.BottomSlider -> DefaultBottomSliderComponent(
+                componentContext = componentContext,
+                onDismiss = { onComplete ->
+                    dialogNavigation.dismiss { isSuccess ->
+                        if (isSuccess) onComplete()
+                    }
+                },
+                bottomSliderDialog = config.bottomSlider,
+            )
         }
 
     private fun createChild(
