@@ -21,6 +21,7 @@ fun SettingsPage(
 ) {
     AppPage(
         title = stringResource(Res.string.settings_page_title),
+        modifier = modifier,
     ) {
 
     }

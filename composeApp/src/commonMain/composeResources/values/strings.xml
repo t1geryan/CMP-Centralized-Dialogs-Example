@@ -11,4 +11,9 @@
 
     <string name="main_tabs_profile">Profile</string>
     <string name="main_tabs_settings">Settings</string>
+
+    <string name="first_page_title">First Test Page</string>
+    <string name="first_page_next_button_title">Go Next</string>
+
+    <string name="second_page_title">Second Test Page</string>
 </resources>
