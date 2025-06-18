@@ -6,6 +6,7 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
+import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
 import com.example.dialogs.presentation.features.login.DefaultLoginComponent
 import com.example.dialogs.presentation.features.login.LoginComponent
@@ -66,13 +67,14 @@ class DefaultRootComponent(
                 navigation.pop()
             },
             onNavigateForward = {
-                // navigation.pushNew(Config.)
+                navigation.replaceAll(Config.Main)
             }
         )
 
     private fun createMainChild(componentContext: ComponentContext): MainComponent =
         DefaultMainComponent(
             componentContext = componentContext,
+            onNavigateBack = onMinimize,
         )
 
     @Serializable // kotlinx-serialization plugin must be applied

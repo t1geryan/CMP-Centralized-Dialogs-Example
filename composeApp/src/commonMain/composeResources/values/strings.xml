@@ -4,4 +4,11 @@
 
     <string name="login_page_title">Login</string>
     <string name="login_page_login_button_title">Enter</string>
+
+    <string name="profile_page_title">Profile</string>
+
+    <string name="settings_page_title">Settings</string>
+
+    <string name="main_tabs_profile">Profile</string>
+    <string name="main_tabs_settings">Settings</string>
 </resources>

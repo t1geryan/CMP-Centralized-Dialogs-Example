@@ -53,6 +53,7 @@ private fun AppTopBar(
         colors = TopAppBarDefaults.topAppBarColors().copy(
             containerColor = MaterialTheme.colorScheme.primary,
             titleContentColor = MaterialTheme.colorScheme.onPrimary,
+            navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
         ),
         modifier = modifier,
     )

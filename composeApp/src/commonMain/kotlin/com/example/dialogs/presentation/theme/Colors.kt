@@ -8,7 +8,7 @@ internal val Purple80 = Color(0xFFD0BCFF)
 internal val PurpleGrey80 = Color(0xFFCCC2DC)
 internal val Pink80 = Color(0xFFEFB8C8)
 internal val LightGrey = Color(0xFFDFDFDF)
-internal val White = Color(0xFFFFFF)
+internal val White = Color(0xFFFFFFFF)
 
 internal val Purple40 = Color(0xFF6650a4)
 internal val PurpleGrey40 = Color(0xFF625b71)
@@ -24,6 +24,7 @@ internal val darkColorScheme = darkColorScheme(
 
 internal val lightColorScheme = lightColorScheme(
     primary = Purple40,
+    onPrimary = White,
     primaryContainer = Pink40,
     secondary = PurpleGrey40,
     surface = LightGrey,
