@@ -15,7 +15,9 @@ fun InfoDialogPane(
         title = component.infoDialog.title,
         message = component.infoDialog.message,
         buttonTitle = component.infoDialog.buttonTitle,
-        onDismissClicked = component::onDismissClicked,
+        onDismiss = {
+            component.onDismiss(component.infoDialog.onDismiss)
+        },
         modifier = modifier,
     )
 }
@@ -25,7 +27,7 @@ fun InfoDialogPane(
     title: String,
     message: String,
     buttonTitle: String,
-    onDismissClicked: () -> Unit,
+    onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     AlertDialog(
@@ -37,12 +39,12 @@ fun InfoDialogPane(
         },
         confirmButton = {
             Button(
-                onClick = onDismissClicked,
+                onClick = onDismiss,
             ) {
                 Text(buttonTitle)
             }
         },
-        onDismissRequest = onDismissClicked,
+        onDismissRequest = onDismiss,
         modifier = modifier,
     )
 }

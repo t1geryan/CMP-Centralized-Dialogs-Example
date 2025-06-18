@@ -9,6 +9,8 @@ import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import com.example.dialogs.presentation.dialogs.confirmation.ConfirmationComponent
+import com.example.dialogs.presentation.dialogs.confirmation.ConfirmationPane
 import com.example.dialogs.presentation.dialogs.info.InfoDialogComponent
 import com.example.dialogs.presentation.dialogs.info.InfoDialogPane
 import com.example.dialogs.presentation.dialogs.toast.ToastComponent
@@ -55,6 +57,10 @@ fun RootPage(
             )
 
             is InfoDialogComponent -> InfoDialogPane(
+                component = dialogComponent,
+            )
+
+            is ConfirmationComponent -> ConfirmationPane(
                 component = dialogComponent,
             )
         }

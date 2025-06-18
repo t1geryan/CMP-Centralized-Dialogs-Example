@@ -1,6 +1,8 @@
 package com.example.dialogs.presentation.dialogs
 
+typealias DismissCallback = () -> Unit
+
 interface DialogComponent {
 
-    fun onDismissClicked()
+    val onDismiss: (DismissCallback) -> Unit
 }

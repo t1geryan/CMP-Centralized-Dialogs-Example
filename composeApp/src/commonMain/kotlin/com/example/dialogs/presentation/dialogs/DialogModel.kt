@@ -28,7 +28,9 @@ sealed interface DialogModel {
         val title: String,
         val message: String,
         val onConfirm: () -> Unit,
+        val confirmTitle: String,
         val onCancel: () -> Unit = {},
+        val cancelTitle: String?,
         override val onDismiss: () -> Unit = {},
     ) : DialogModel
 

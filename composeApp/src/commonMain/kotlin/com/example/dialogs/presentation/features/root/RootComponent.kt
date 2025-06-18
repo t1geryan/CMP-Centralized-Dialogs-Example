@@ -18,6 +18,7 @@ import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
 import com.example.dialogs.presentation.dialogs.DialogComponent
 import com.example.dialogs.presentation.dialogs.DialogHolder
 import com.example.dialogs.presentation.dialogs.DialogModel
+import com.example.dialogs.presentation.dialogs.confirmation.DefaultConfirmationComponent
 import com.example.dialogs.presentation.dialogs.info.DefaultInfoDialogComponent
 import com.example.dialogs.presentation.dialogs.toast.DefaultToastComponent
 import com.example.dialogs.presentation.features.login.DefaultLoginComponent
@@ -77,8 +78,8 @@ class DefaultRootComponent(
         when (model) {
             is DialogModel.Toast -> showToast(model)
             is DialogModel.InfoDialog -> showInfoDialog(model)
-            is DialogModel.ConfirmationDialog -> TODO()
-            is DialogModel.BottomSliderDialog -> TODO()
+            is DialogModel.ConfirmationDialog -> showConfirmationDialog(model)
+            is DialogModel.BottomSliderDialog -> showBottomSliderDialog(model)
         }
     }
 
@@ -98,6 +99,18 @@ class DefaultRootComponent(
         )
     }
 
+    private fun showConfirmationDialog(model: DialogModel.ConfirmationDialog) {
+        dialogNavigation.activate(
+            DialogConfig.ConfirmationDialog(confirmationDialog = model)
+        )
+    }
+
+    private fun showBottomSliderDialog(model: DialogModel.BottomSliderDialog) {
+        dialogNavigation.activate(
+            DialogConfig.BottomSlider(bottomSlider = model)
+        )
+    }
+
     private fun createDialog(
         config: DialogConfig,
         componentContext: ComponentContext,
@@ -105,9 +118,9 @@ class DefaultRootComponent(
         when (config) {
             is DialogConfig.InfoDialog -> DefaultInfoDialogComponent(
                 componentContext = componentContext,
-                onDismiss = {
+                onDismiss = { onComplete ->
                     dialogNavigation.dismiss { isSuccess ->
-                        if (isSuccess) config.infoDialog.onDismiss()
+                        if (isSuccess) onComplete()
                     }
                 },
                 infoDialog = config.infoDialog,
@@ -116,7 +129,21 @@ class DefaultRootComponent(
             is DialogConfig.Toast -> DefaultToastComponent(
                 componentContext = componentContext,
                 toast = config.toast,
+                // handled automatically on show
+                onDismiss = {},
             )
+
+            is DialogConfig.ConfirmationDialog -> DefaultConfirmationComponent(
+                componentContext = componentContext,
+                onDismiss = { onComplete ->
+                    dialogNavigation.dismiss { isSuccess ->
+                        if (isSuccess) onComplete()
+                    }
+                },
+                confirmationDialog = config.confirmationDialog,
+            )
+
+            is DialogConfig.BottomSlider -> TODO()
         }
 
     private fun createChild(
@@ -145,13 +172,15 @@ class DefaultRootComponent(
             },
             onNavigateForward = {
                 navigation.replaceAll(Config.Main)
-            }
+            },
+            onShowDialog = ::showDialog,
         )
 
     private fun createMainChild(componentContext: ComponentContext): MainComponent =
         DefaultMainComponent(
             componentContext = componentContext,
             onNavigateBack = onMinimize,
+            onShowDialog = ::showDialog,
         )
 
     @Serializable // kotlinx-serialization plugin must be applied
@@ -170,5 +199,11 @@ class DefaultRootComponent(
         class Toast(val toast: DialogModel.Toast) : DialogConfig
 
         class InfoDialog(val infoDialog: DialogModel.InfoDialog) : DialogConfig
+
+        class ConfirmationDialog(
+            val confirmationDialog: DialogModel.ConfirmationDialog
+        ) : DialogConfig
+
+        class BottomSlider(val bottomSlider: DialogModel.BottomSliderDialog) : DialogConfig
     }
 }
