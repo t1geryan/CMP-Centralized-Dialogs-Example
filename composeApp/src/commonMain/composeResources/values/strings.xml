@@ -1,0 +1,7 @@
+<resources>
+    <string name="welcome_page_title">Welcome</string>
+    <string name="welcome_page_start_button_title">Start</string>
+
+    <string name="login_page_title">Login</string>
+    <string name="login_page_login_button_title">Enter</string>
+</resources>
