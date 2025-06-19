@@ -63,26 +63,20 @@ class DefaultRootComponent(
         )
 
 
-    private val dialogNavigation = SlotNavigation<DialogConfig>()
+    private val dialogNavigation = SlotNavigation<DialogModel>()
 
     override val dialog: Value<ChildSlot<*, DialogComponent>> =
         childSlot(
             source = dialogNavigation,
             handleBackButton = true,
+            // turns off state preservation (on process die), but allows to pass callbacks (non-serializable closures)
             serializer = null,
             childFactory = ::createDialog,
         )
 
     override fun showDialog(model: DialogModel) {
         if (dialog.child != null) return
-
-        val dialogConfig = when (model) {
-            is DialogModel.Toast -> DialogConfig.Toast(model)
-            is DialogModel.InfoDialog -> DialogConfig.InfoDialog(model)
-            is DialogModel.ConfirmationDialog -> DialogConfig.ConfirmationDialog(model)
-            is DialogModel.BottomSliderDialog -> DialogConfig.BottomSlider(model)
-        }
-        dialogNavigation.activate(dialogConfig)
+        dialogNavigation.activate(model)
     }
 
     private val dialogHolderModule = module {
@@ -129,7 +123,7 @@ class DefaultRootComponent(
     private var isDialogCheckingInProcess = false
     private fun checkDialogToClose() {
         if (isDialogCheckingInProcess) return
-        val dialogModel = (dialog.child?.configuration as? DialogConfig)?.model
+        val dialogModel = dialog.child?.configuration as? DialogModel
         if (dialogModel != null && dialogModel.isLocal) {
             isDialogCheckingInProcess = true
 
@@ -146,32 +140,32 @@ class DefaultRootComponent(
     }
 
     private fun createDialog(
-        config: DialogConfig,
+        configuration: DialogModel,
         componentContext: ComponentContext,
     ): DialogComponent =
-        when (config) {
-            is DialogConfig.InfoDialog -> DefaultInfoDialogComponent(
+        when (configuration) {
+            is DialogModel.InfoDialog -> DefaultInfoDialogComponent(
                 componentContext = componentContext,
                 onDismiss = ::onDismissDialog,
-                infoDialog = config.model,
+                infoDialog = configuration,
             )
 
-            is DialogConfig.Toast -> DefaultToastComponent(
+            is DialogModel.Toast -> DefaultToastComponent(
                 componentContext = componentContext,
                 onDismiss = ::onDismissDialog,
-                toast = config.model,
+                toast = configuration,
             )
 
-            is DialogConfig.ConfirmationDialog -> DefaultConfirmationComponent(
+            is DialogModel.ConfirmationDialog -> DefaultConfirmationComponent(
                 componentContext = componentContext,
                 onDismiss = ::onDismissDialog,
-                confirmationDialog = config.model,
+                confirmationDialog = configuration,
             )
 
-            is DialogConfig.BottomSlider -> DefaultBottomSliderComponent(
+            is DialogModel.BottomSliderDialog -> DefaultBottomSliderComponent(
                 componentContext = componentContext,
                 onDismiss = ::onDismissDialog,
-                bottomSliderDialog = config.model,
+                bottomSliderDialog = configuration,
             )
         }
 
@@ -227,17 +221,5 @@ class DefaultRootComponent(
 
         @Serializable
         data object Main : Config
-    }
-
-    private sealed interface DialogConfig {
-        val model: DialogModel
-
-        class Toast(override val model: DialogModel.Toast) : DialogConfig
-
-        class InfoDialog(override val model: DialogModel.InfoDialog) : DialogConfig
-
-        class ConfirmationDialog(override val model: DialogModel.ConfirmationDialog) : DialogConfig
-
-        class BottomSlider(override val model: DialogModel.BottomSliderDialog) : DialogConfig
     }
 }
