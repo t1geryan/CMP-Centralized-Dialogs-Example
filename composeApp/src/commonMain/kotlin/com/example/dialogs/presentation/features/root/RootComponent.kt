@@ -104,7 +104,7 @@ class DefaultRootComponent(
 
     private fun showToast(model: DialogModel.Toast) {
         navigationScope.launch {
-            dialogNavigation.activate(DialogConfig.Toast(toast = model))
+            dialogNavigation.activate(DialogConfig.Toast(model = model))
             delay(model.duration)
             dialogNavigation.dismiss { isSuccess ->
                 if (isSuccess) model.onDismiss()
@@ -114,19 +114,19 @@ class DefaultRootComponent(
 
     private fun showInfoDialog(model: DialogModel.InfoDialog) {
         dialogNavigation.activate(
-            DialogConfig.InfoDialog(infoDialog = model)
+            DialogConfig.InfoDialog(model = model)
         )
     }
 
     private fun showConfirmationDialog(model: DialogModel.ConfirmationDialog) {
         dialogNavigation.activate(
-            DialogConfig.ConfirmationDialog(confirmationDialog = model)
+            DialogConfig.ConfirmationDialog(model = model)
         )
     }
 
     private fun showBottomSliderDialog(model: DialogModel.BottomSliderDialog) {
         dialogNavigation.activate(
-            DialogConfig.BottomSlider(bottomSlider = model)
+            DialogConfig.BottomSlider(model = model)
         )
     }
 
@@ -142,12 +142,12 @@ class DefaultRootComponent(
                         if (isSuccess) onComplete()
                     }
                 },
-                infoDialog = config.infoDialog,
+                infoDialog = config.model,
             )
 
             is DialogConfig.Toast -> DefaultToastComponent(
                 componentContext = componentContext,
-                toast = config.toast,
+                toast = config.model,
                 // handled automatically on show
                 onDismiss = {},
             )
@@ -159,7 +159,7 @@ class DefaultRootComponent(
                         if (isSuccess) onComplete()
                     }
                 },
-                confirmationDialog = config.confirmationDialog,
+                confirmationDialog = config.model,
             )
 
             // TODO Tty to extract onDismiss to separate function cause they are same
@@ -170,7 +170,7 @@ class DefaultRootComponent(
                         if (isSuccess) onComplete()
                     }
                 },
-                bottomSliderDialog = config.bottomSlider,
+                bottomSliderDialog = config.model,
             )
         }
 
@@ -223,14 +223,14 @@ class DefaultRootComponent(
     }
 
     private sealed interface DialogConfig {
-        class Toast(val toast: DialogModel.Toast) : DialogConfig
+        val model: DialogModel
 
-        class InfoDialog(val infoDialog: DialogModel.InfoDialog) : DialogConfig
+        class Toast(override val model: DialogModel.Toast) : DialogConfig
 
-        class ConfirmationDialog(
-            val confirmationDialog: DialogModel.ConfirmationDialog
-        ) : DialogConfig
+        class InfoDialog(override val model: DialogModel.InfoDialog) : DialogConfig
 
-        class BottomSlider(val bottomSlider: DialogModel.BottomSliderDialog) : DialogConfig
+        class ConfirmationDialog(override val model: DialogModel.ConfirmationDialog) : DialogConfig
+
+        class BottomSlider(override val model: DialogModel.BottomSliderDialog) : DialogConfig
     }
 }
