@@ -15,7 +15,6 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
 import com.arkivanov.essenty.lifecycle.doOnCreate
 import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.example.dialogs.presentation.contracts.NavigationChild
@@ -24,6 +23,7 @@ import com.example.dialogs.presentation.contracts.findAllStackNavigationSubcompo
 import com.example.dialogs.presentation.dialogs.DialogComponent
 import com.example.dialogs.presentation.dialogs.DialogHolder
 import com.example.dialogs.presentation.dialogs.DialogModel
+import com.example.dialogs.presentation.dialogs.DismissCallback
 import com.example.dialogs.presentation.dialogs.confirmation.DefaultConfirmationComponent
 import com.example.dialogs.presentation.dialogs.info.DefaultInfoDialogComponent
 import com.example.dialogs.presentation.dialogs.slider.DefaultBottomSliderComponent
@@ -34,10 +34,6 @@ import com.example.dialogs.presentation.features.main.DefaultMainComponent
 import com.example.dialogs.presentation.features.main.MainComponent
 import com.example.dialogs.presentation.features.welcome.DefaultWelcomeComponent
 import com.example.dialogs.presentation.features.welcome.WelcomeComponent
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import org.koin.core.component.KoinComponent
 import org.koin.dsl.module
@@ -55,8 +51,6 @@ class DefaultRootComponent(
     componentContext: ComponentContext,
     private val onMinimize: () -> Unit = {},
 ) : RootComponent, ComponentContext by componentContext, KoinComponent {
-    private val navigationScope = coroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-
     private val navigation = StackNavigation<Config>()
 
     override val childStack: Value<ChildStack<*, RootComponent.Child>> =
@@ -82,12 +76,13 @@ class DefaultRootComponent(
     override fun showDialog(model: DialogModel) {
         if (dialog.child != null) return
 
-        when (model) {
-            is DialogModel.Toast -> showToast(model)
-            is DialogModel.InfoDialog -> showInfoDialog(model)
-            is DialogModel.ConfirmationDialog -> showConfirmationDialog(model)
-            is DialogModel.BottomSliderDialog -> showBottomSliderDialog(model)
+        val dialogConfig = when (model) {
+            is DialogModel.Toast -> DialogConfig.Toast(model)
+            is DialogModel.InfoDialog -> DialogConfig.InfoDialog(model)
+            is DialogModel.ConfirmationDialog -> DialogConfig.ConfirmationDialog(model)
+            is DialogModel.BottomSliderDialog -> DialogConfig.BottomSlider(model)
         }
+        dialogNavigation.activate(dialogConfig)
     }
 
     private val dialogHolderModule = module {
@@ -150,34 +145,6 @@ class DefaultRootComponent(
         subscriptions = emptyList()
     }
 
-    private fun showToast(model: DialogModel.Toast) {
-        navigationScope.launch {
-            dialogNavigation.activate(DialogConfig.Toast(model = model))
-            delay(model.duration)
-            dialogNavigation.dismiss { isSuccess ->
-                if (isSuccess) model.onDismiss()
-            }
-        }
-    }
-
-    private fun showInfoDialog(model: DialogModel.InfoDialog) {
-        dialogNavigation.activate(
-            DialogConfig.InfoDialog(model = model)
-        )
-    }
-
-    private fun showConfirmationDialog(model: DialogModel.ConfirmationDialog) {
-        dialogNavigation.activate(
-            DialogConfig.ConfirmationDialog(model = model)
-        )
-    }
-
-    private fun showBottomSliderDialog(model: DialogModel.BottomSliderDialog) {
-        dialogNavigation.activate(
-            DialogConfig.BottomSlider(model = model)
-        )
-    }
-
     private fun createDialog(
         config: DialogConfig,
         componentContext: ComponentContext,
@@ -185,42 +152,34 @@ class DefaultRootComponent(
         when (config) {
             is DialogConfig.InfoDialog -> DefaultInfoDialogComponent(
                 componentContext = componentContext,
-                onDismiss = { onComplete ->
-                    dialogNavigation.dismiss { isSuccess ->
-                        if (isSuccess) onComplete()
-                    }
-                },
+                onDismiss = ::onDismissDialog,
                 infoDialog = config.model,
             )
 
             is DialogConfig.Toast -> DefaultToastComponent(
                 componentContext = componentContext,
+                onDismiss = ::onDismissDialog,
                 toast = config.model,
-                // handled automatically on show
-                onDismiss = {},
             )
 
             is DialogConfig.ConfirmationDialog -> DefaultConfirmationComponent(
                 componentContext = componentContext,
-                onDismiss = { onComplete ->
-                    dialogNavigation.dismiss { isSuccess ->
-                        if (isSuccess) onComplete()
-                    }
-                },
+                onDismiss = ::onDismissDialog,
                 confirmationDialog = config.model,
             )
 
-            // TODO Tty to extract onDismiss to separate function cause they are same
             is DialogConfig.BottomSlider -> DefaultBottomSliderComponent(
                 componentContext = componentContext,
-                onDismiss = { onComplete ->
-                    dialogNavigation.dismiss { isSuccess ->
-                        if (isSuccess) onComplete()
-                    }
-                },
+                onDismiss = ::onDismissDialog,
                 bottomSliderDialog = config.model,
             )
         }
+
+    private fun onDismissDialog(onComplete: DismissCallback) {
+        dialogNavigation.dismiss { isSuccess ->
+            if (isSuccess) onComplete()
+        }
+    }
 
     private fun createChild(
         config: Config,
