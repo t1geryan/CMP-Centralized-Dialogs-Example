@@ -9,20 +9,19 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackCallback
+import com.example.dialogs.presentation.contracts.NavigationChild
+import com.example.dialogs.presentation.contracts.StackNavigationComponent
 import com.example.dialogs.presentation.features.profile.DefaultProfileComponent
 import com.example.dialogs.presentation.features.profile.ProfileComponent
 import com.example.dialogs.presentation.features.settings.DefaultSettingsComponent
 import com.example.dialogs.presentation.features.settings.SettingsComponent
 import kotlinx.serialization.Serializable
 
-interface MainComponent {
-    val stack: Value<ChildStack<*, Child>>
+interface MainComponent : StackNavigationComponent<MainComponent.Child> {
 
     fun onTabSelected(tab: MainTab)
 
-    sealed interface Child {
-        val component: Any
-
+    sealed interface Child : NavigationChild {
         class Profile(override val component: ProfileComponent) : Child
         class Settings(override val component: SettingsComponent) : Child
     }
@@ -43,7 +42,7 @@ class DefaultMainComponent(
 
     private val navigation = StackNavigation<Config>()
 
-    override val stack: Value<ChildStack<*, MainComponent.Child>> = childStack(
+    override val childStack: Value<ChildStack<*, MainComponent.Child>> = childStack(
         source = navigation,
         initialConfiguration = Config.INITIAL,
         handleBackButton = false,
@@ -53,7 +52,7 @@ class DefaultMainComponent(
 
     override fun onTabSelected(tab: MainTab) {
         val configToNavigate = Config.getByTab(tab)
-        val currentConfig = stack.active.configuration as Config
+        val currentConfig = childStack.active.configuration as Config
 
         if (configToNavigate != currentConfig) {
             navigation.bringToFront(configToNavigate)
@@ -61,7 +60,7 @@ class DefaultMainComponent(
     }
 
     private fun handleBackNavigation() {
-        val currentConfig = stack.active.configuration as Config
+        val currentConfig = childStack.active.configuration as Config
         if (currentConfig == Config.INITIAL) {
             onNavigateBack()
         } else {

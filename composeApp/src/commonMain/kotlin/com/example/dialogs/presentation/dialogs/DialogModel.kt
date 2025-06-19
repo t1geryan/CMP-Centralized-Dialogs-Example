@@ -7,12 +7,14 @@ import kotlin.time.Duration.Companion.seconds
 @Immutable
 sealed interface DialogModel {
     val onDismiss: () -> Unit
+    val isLocal: Boolean
 
     @Immutable
     class Toast(
         val message: String,
         val duration: Duration = 3.seconds,
         override val onDismiss: () -> Unit = {},
+        override val isLocal: Boolean = true,
     ) : DialogModel
 
     @Immutable
@@ -21,6 +23,7 @@ sealed interface DialogModel {
         val message: String,
         val buttonTitle: String,
         override val onDismiss: () -> Unit = {},
+        override val isLocal: Boolean = true,
     ) : DialogModel
 
     @Immutable
@@ -32,6 +35,7 @@ sealed interface DialogModel {
         val onCancel: () -> Unit = {},
         val cancelTitle: String?,
         override val onDismiss: () -> Unit = {},
+        override val isLocal: Boolean = true,
     ) : DialogModel
 
     @Immutable
@@ -43,6 +47,7 @@ sealed interface DialogModel {
         val initialValue: Float,
         val onValueSelected: (Float) -> Unit,
         val stepsCount: Int,
-        override val onDismiss: () -> Unit = {}
+        override val onDismiss: () -> Unit = {},
+        override val isLocal: Boolean = true,
     ) : DialogModel
 }

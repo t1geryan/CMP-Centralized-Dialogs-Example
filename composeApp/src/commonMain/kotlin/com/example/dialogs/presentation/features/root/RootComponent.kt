@@ -1,5 +1,6 @@
 package com.example.dialogs.presentation.features.root
 
+import com.arkivanov.decompose.Cancellation
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.slot.ChildSlot
 import com.arkivanov.decompose.router.slot.SlotNavigation
@@ -17,6 +18,9 @@ import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
 import com.arkivanov.essenty.lifecycle.doOnCreate
 import com.arkivanov.essenty.lifecycle.doOnDestroy
+import com.example.dialogs.presentation.contracts.NavigationChild
+import com.example.dialogs.presentation.contracts.StackNavigationComponent
+import com.example.dialogs.presentation.contracts.findAllStackNavigationSubcomponents
 import com.example.dialogs.presentation.dialogs.DialogComponent
 import com.example.dialogs.presentation.dialogs.DialogHolder
 import com.example.dialogs.presentation.dialogs.DialogModel
@@ -38,13 +42,12 @@ import kotlinx.serialization.Serializable
 import org.koin.core.component.KoinComponent
 import org.koin.dsl.module
 
-interface RootComponent : DialogHolder {
-    val childStack: Value<ChildStack<*, Child>>
+interface RootComponent : DialogHolder, StackNavigationComponent<RootComponent.Child> {
 
-    sealed interface Child {
-        class Welcome(val component: WelcomeComponent) : Child
-        class Login(val component: LoginComponent) : Child
-        class Main(val component: MainComponent) : Child
+    sealed interface Child : NavigationChild {
+        class Welcome(override val component: WelcomeComponent) : Child
+        class Login(override val component: LoginComponent) : Child
+        class Main(override val component: MainComponent) : Child
     }
 }
 
@@ -100,6 +103,51 @@ class DefaultRootComponent(
         lifecycle.doOnDestroy {
             getKoin().unloadModules(listOf(dialogHolderModule))
         }
+    }
+
+    private var subscriptions = emptyList<Cancellation>()
+
+    init {
+        lifecycle.doOnCreate {
+            subscribeOnWholeNavigation()
+        }
+        lifecycle.doOnDestroy {
+            cancelNavigationSubscription()
+        }
+    }
+
+    private fun subscribeOnWholeNavigation() {
+        subscriptions = findAllStackNavigationSubcomponents().map {
+            var skippedFirst = false
+            it.childStack.subscribe {
+                if (!skippedFirst) {
+                    skippedFirst = true
+                    return@subscribe
+                }
+                checkDialogToClose()
+                cancelNavigationSubscription()
+                subscribeOnWholeNavigation()
+            }
+        }
+    }
+
+    private var isDialogCheckingInProcess = false
+    private fun checkDialogToClose() {
+        if (isDialogCheckingInProcess) return
+        val dialogModel = (dialog.child?.configuration as? DialogConfig)?.model
+        if (dialogModel != null && dialogModel.isLocal) {
+            isDialogCheckingInProcess = true
+
+            dialogNavigation.dismiss { isSuccess ->
+                if (isSuccess) dialogModel.onDismiss.invoke()
+                isDialogCheckingInProcess = false
+            }
+        }
+    }
+
+    private fun cancelNavigationSubscription() {
+        subscriptions.forEach { it.cancel() }
+        subscriptions = emptyList()
     }
 
     private fun showToast(model: DialogModel.Toast) {

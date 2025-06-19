@@ -33,7 +33,7 @@ fun MainPage(
     component: MainComponent,
     modifier: Modifier = Modifier,
 ) {
-    val stack by component.stack.subscribeAsState()
+    val stack by component.childStack.subscribeAsState()
 
     MainPage(
         stack = stack,
