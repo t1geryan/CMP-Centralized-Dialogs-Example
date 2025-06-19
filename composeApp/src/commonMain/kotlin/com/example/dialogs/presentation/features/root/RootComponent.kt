@@ -15,6 +15,8 @@ import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
+import com.arkivanov.essenty.lifecycle.doOnCreate
+import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.example.dialogs.presentation.dialogs.DialogComponent
 import com.example.dialogs.presentation.dialogs.DialogHolder
 import com.example.dialogs.presentation.dialogs.DialogModel
@@ -34,6 +36,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import org.koin.core.component.KoinComponent
+import org.koin.dsl.module
 
 interface RootComponent : DialogHolder {
     val childStack: Value<ChildStack<*, Child>>
@@ -81,6 +84,21 @@ class DefaultRootComponent(
             is DialogModel.InfoDialog -> showInfoDialog(model)
             is DialogModel.ConfirmationDialog -> showConfirmationDialog(model)
             is DialogModel.BottomSliderDialog -> showBottomSliderDialog(model)
+        }
+    }
+
+    private val dialogHolderModule = module {
+        single<DialogHolder> {
+            this@DefaultRootComponent
+        }
+    }
+
+    init {
+        lifecycle.doOnCreate {
+            getKoin().loadModules(listOf(dialogHolderModule))
+        }
+        lifecycle.doOnDestroy {
+            getKoin().unloadModules(listOf(dialogHolderModule))
         }
     }
 
@@ -190,7 +208,6 @@ class DefaultRootComponent(
         DefaultMainComponent(
             componentContext = componentContext,
             onNavigateBack = onMinimize,
-            onShowDialog = ::showDialog,
         )
 
     @Serializable // kotlinx-serialization plugin must be applied
