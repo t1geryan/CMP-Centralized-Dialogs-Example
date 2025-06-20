@@ -1,0 +1,9 @@
+This project includes the following third-party libraries:
+
+Decompose
+Copyright (c) 2020 Arkadii Ivanov  
+Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
+
+Koin  
+Copyright (c) 2017–2023 Arnaud GIULIANI 
+Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
