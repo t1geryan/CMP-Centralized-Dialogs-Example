@@ -1,4 +1,6 @@
 <resources>
+    <string name="common_percent">%1$d%</string>
+
     <string name="welcome_page_title">Welcome</string>
     <string name="welcome_page_start_button_title">Start</string>
 
@@ -16,4 +18,21 @@
     <string name="first_page_next_button_title">Go Next</string>
 
     <string name="second_page_title">Second Test Page</string>
+
+    <string name="dialogs_presenter_show_toast_title">Show Toast</string>
+    <string name="dialogs_presenter_toast_message">Something happened!</string>
+    <string name="dialogs_presenter_show_info_title">Show Info Dialog</string>
+    <string name="dialogs_presenter_info_title">Hey!</string>
+    <string name="dialogs_presenter_info_message">I am informing you about something important</string>
+    <string name="dialogs_presenter_info_button_title">Got It!</string>
+    <string name="dialogs_presenter_show_confirmation_title">Show Confirmation Dialog</string>
+    <string name="dialogs_presenter_confirmation_title">Are you agree?</string>
+    <string name="dialogs_presenter_confirmation_message">I want to do something, so I need your permission</string>
+    <string name="dialogs_presenter_confirmation_confirm_button_title">OK</string>
+    <string name="dialogs_presenter_confirmation_cancel_button_title">Cancel</string>
+    <string name="dialogs_presenter_confirmation_result_confirmed">Confirmed!</string>
+    <string name="dialogs_presenter_confirmation_result_canceled">Canceled!</string>
+    <string name="dialogs_presenter_show_slider_title">Show Slider</string>
+    <string name="dialogs_presenter_slider_title">Please select value</string>
+    <string name="dialogs_presenter_slider_selected_value">Selected: %1$s</string>
 </resources>

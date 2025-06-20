@@ -40,13 +40,13 @@ sealed interface DialogModel {
 
     @Immutable
     class BottomSliderDialog(
-        val titleFormatter: (Float) -> String,
-        val valueFormatter: (Float) -> String,
+        val titleFormatter: suspend (Float) -> String,
+        val valueFormatter: suspend (Float) -> String,
         val maxValue: Float,
         val minValue: Float,
         val initialValue: Float,
         val onValueSelected: (Float) -> Unit,
-        val stepsCount: Int,
+        val stepsCount: UInt,
         override val onDismiss: () -> Unit = {},
         override val isLocal: Boolean = true,
     ) : DialogModel

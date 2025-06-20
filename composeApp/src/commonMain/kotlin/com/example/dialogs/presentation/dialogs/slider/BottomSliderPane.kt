@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import com.example.dialogs.common.utils.getStringAsync
 import com.example.dialogs.presentation.dialogs.DialogModel
 import com.example.dialogs.presentation.dialogs.DismissCallback
 import com.example.dialogs.presentation.widgets.spacing.Spacer
@@ -76,7 +77,7 @@ fun BottomSliderPane(
         Spacer(8.dp)
         Box(modifier = Modifier.fillMaxWidth()) {
             Text(
-                text = bottomSliderDialog.titleFormatter(value),
+                text = getStringAsync(key = value) { bottomSliderDialog.titleFormatter(value) },
                 modifier = Modifier.align(Alignment.Center)
             )
         }
@@ -84,12 +85,14 @@ fun BottomSliderPane(
         Slider(
             value = value,
             onValueChange = onValueChanged,
-            steps = bottomSliderDialog.stepsCount,
+            steps = bottomSliderDialog.stepsCount.toInt(),
             colors = colors,
             valueRange = bottomSliderDialog.minValue..bottomSliderDialog.maxValue,
             modifier = Modifier.fillMaxWidth().padding(horizontal = 32.dp)
         )
         Spacer(8.dp)
-        Text(text = bottomSliderDialog.valueFormatter(value))
+        Text(
+            text = getStringAsync(key = value) { bottomSliderDialog.valueFormatter(value) }
+        )
     }
 }
