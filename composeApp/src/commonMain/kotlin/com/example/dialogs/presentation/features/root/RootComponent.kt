@@ -73,7 +73,8 @@ class DefaultRootComponent(
     override val dialog: Value<ChildSlot<*, DialogComponent>> =
         childSlot(
             source = dialogNavigation,
-            handleBackButton = true,
+            // turned off cause used alert dialog Composables handle back button by themself
+            handleBackButton = false,
             // turns off state preservation (on process die), but allows to pass callbacks (non-serializable closures)
             serializer = null,
             childFactory = ::createDialog,
