@@ -28,6 +28,8 @@ import org.jetbrains.compose.resources.getString
 interface DialogsPresenterComponent {
     val sliderValue: Value<Int>
 
+    val isDialogOpen: Value<Boolean>
+
     fun onShowToast()
 
     fun onShowInfoDialog()
@@ -46,6 +48,8 @@ class DefaultDialogsPresenterComponent(
     private val _sliderValue = MutableValue(0)
     override val sliderValue: Value<Int>
         get() = _sliderValue
+
+    override val isDialogOpen: Value<Boolean> = dialogHolder.isDialogOpen
 
     override fun onShowToast() {
         scope.launch {

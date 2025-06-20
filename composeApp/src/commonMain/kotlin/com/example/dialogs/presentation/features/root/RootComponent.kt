@@ -15,6 +15,7 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.decompose.value.operator.map
 import com.arkivanov.essenty.lifecycle.doOnCreate
 import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.example.dialogs.presentation.contracts.NavigationChild
@@ -41,6 +42,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.dsl.module
 
 interface RootComponent : DialogHolder, StackNavigationComponent<RootComponent.Child> {
+    val dialog: Value<ChildSlot<*, DialogComponent>>
 
     sealed interface Child : NavigationChild {
         class Welcome(override val component: WelcomeComponent) : Child
@@ -76,6 +78,8 @@ class DefaultRootComponent(
             serializer = null,
             childFactory = ::createDialog,
         )
+
+    override val isDialogOpen: Value<Boolean> = dialog.map { it.child != null }
 
     override fun showDialog(model: DialogModel) {
         if (dialog.child != null) return

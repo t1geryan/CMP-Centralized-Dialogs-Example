@@ -28,9 +28,11 @@ fun DialogsPresenterPane(
     modifier: Modifier = Modifier,
 ) {
     val sliderValue by component.sliderValue.subscribeAsState()
+    val isDialogOpen by component.isDialogOpen.subscribeAsState()
 
     DialogsPresenterPane(
         sliderValue = sliderValue,
+        isDialogOpen = isDialogOpen,
         onShowToastClicked = component::onShowToast,
         onShowInfoDialogClicked = component::onShowInfoDialog,
         onShowConfirmationDialogClicked = component::onShowConfirmationDialog,
@@ -42,12 +44,15 @@ fun DialogsPresenterPane(
 @Composable
 fun DialogsPresenterPane(
     sliderValue: Int,
+    isDialogOpen: Boolean,
     onShowToastClicked: () -> Unit,
     onShowInfoDialogClicked: () -> Unit,
     onShowConfirmationDialogClicked: () -> Unit,
     onShowSliderClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val isOpeningEnabled = !isDialogOpen
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -55,16 +60,19 @@ fun DialogsPresenterPane(
     ) {
         ShowDialogButton(
             title = stringResource(Res.string.dialogs_presenter_show_toast_title),
+            isEnabled = isOpeningEnabled,
             onShowDialog = onShowToastClicked,
         )
         Spacer(16.dp)
         ShowDialogButton(
             title = stringResource(Res.string.dialogs_presenter_show_info_title),
+            isEnabled = isOpeningEnabled,
             onShowDialog = onShowInfoDialogClicked,
         )
         Spacer(16.dp)
         ShowDialogButton(
             title = stringResource(Res.string.dialogs_presenter_show_confirmation_title),
+            isEnabled = isOpeningEnabled,
             onShowDialog = onShowConfirmationDialogClicked,
         )
         Spacer(16.dp)
@@ -77,6 +85,7 @@ fun DialogsPresenterPane(
         Spacer(8.dp)
         ShowDialogButton(
             title = stringResource(Res.string.dialogs_presenter_show_slider_title),
+            isEnabled = isOpeningEnabled,
             onShowDialog = onShowSliderClicked,
         )
     }
@@ -86,10 +95,12 @@ fun DialogsPresenterPane(
 private fun ShowDialogButton(
     title: String,
     onShowDialog: () -> Unit,
+    isEnabled: Boolean = true,
     modifier: Modifier = Modifier,
 ) {
     Button(
         onClick = onShowDialog,
+        enabled = isEnabled,
         modifier = modifier.widthIn(min = 150.dp).heightIn(min = 75.dp),
     ) {
         Text(
