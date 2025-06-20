@@ -1,10 +1,9 @@
-package com.example.dialogs.presentation.features.login
+package com.example.dialogs.presentation.features.third
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,45 +13,41 @@ import com.example.dialogs.presentation.features.dialogs.DialogsPresenterPane
 import com.example.dialogs.presentation.widgets.scaffold.AppPage
 import com.example.dialogs.presentation.widgets.spacing.Expanded
 import dialogsexample.composeapp.generated.resources.Res
-import dialogsexample.composeapp.generated.resources.login_page_login_button_title
-import dialogsexample.composeapp.generated.resources.login_page_title
+import dialogsexample.composeapp.generated.resources.third_page_instruction
+import dialogsexample.composeapp.generated.resources.third_page_title
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun LoginPage(
-    component: LoginComponent,
+fun ThirdPage(
+    component: ThirdComponent,
     modifier: Modifier = Modifier,
 ) {
-    LoginPage(
+    ThirdPage(
         dialogPresenterComponent = component.dialogsPresenter,
         onNavigateBack = component.onNavigateBack,
-        onLoginClicked = component::onLoginClicked,
         modifier = modifier,
     )
 }
 
 @Composable
-fun LoginPage(
+fun ThirdPage(
     dialogPresenterComponent: DialogsPresenterComponent,
     onNavigateBack: () -> Unit,
-    onLoginClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     AppPage(
-        title = stringResource(Res.string.login_page_title),
+        title = stringResource(Res.string.third_page_title),
         onNavigateBack = onNavigateBack,
         modifier = modifier,
-    ) {
+    ) { paddingsValue ->
         Column(
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize().padding(it),
+            modifier = Modifier.fillMaxSize().padding(paddingsValue),
         ) {
-            Button(
-                onClick = onLoginClicked,
-            ) {
-                Text(text = stringResource(Res.string.login_page_login_button_title))
-            }
+            Text(
+                text = stringResource(Res.string.third_page_instruction),
+            )
             Expanded()
             DialogsPresenterPane(
                 component = dialogPresenterComponent,

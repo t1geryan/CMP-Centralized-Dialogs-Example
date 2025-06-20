@@ -23,6 +23,7 @@ interface ProfileComponent : StackNavigationComponent<ProfileComponent.Child> {
 
 class DefaultProfileComponent(
     componentContext: ComponentContext,
+    private val onNavigateToThird: () -> Unit,
 ) : ProfileComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<Config>()
@@ -47,7 +48,8 @@ class DefaultProfileComponent(
     )
 
     private fun createSecondChild(componentContext: ComponentContext) = DefaultSecondComponent(
-        componentContext = componentContext
+        componentContext = componentContext,
+        onNavigateToThird = onNavigateToThird,
     )
 
     @Serializable

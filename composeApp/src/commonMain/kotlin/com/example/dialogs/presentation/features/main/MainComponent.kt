@@ -30,6 +30,7 @@ interface MainComponent : StackNavigationComponent<MainComponent.Child> {
 class DefaultMainComponent(
     componentContext: ComponentContext,
     private val onNavigateBack: () -> Unit,
+    private val onNavigateToThird: () -> Unit,
 ) : MainComponent, ComponentContext by componentContext {
 
     private val backCallback = BackCallback {
@@ -78,7 +79,10 @@ class DefaultMainComponent(
         }
 
     private fun createProfileChild(componentContext: ComponentContext): ProfileComponent {
-        return DefaultProfileComponent(componentContext = componentContext)
+        return DefaultProfileComponent(
+            componentContext = componentContext,
+            onNavigateToThird = onNavigateToThird,
+        )
     }
 
     private fun createSettingsChild(componentContext: ComponentContext): SettingsComponent {

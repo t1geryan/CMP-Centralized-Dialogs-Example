@@ -21,6 +21,7 @@ import com.example.dialogs.presentation.dialogs.toast.ToastComponent
 import com.example.dialogs.presentation.dialogs.toast.ToastPane
 import com.example.dialogs.presentation.features.login.LoginPage
 import com.example.dialogs.presentation.features.main.MainPage
+import com.example.dialogs.presentation.features.third.ThirdPage
 import com.example.dialogs.presentation.features.welcome.WelcomePage
 
 @Composable
@@ -51,6 +52,11 @@ fun RootPage(
                     )
 
                     is RootComponent.Child.Main -> MainPage(
+                        component = child.component,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+
+                    is RootComponent.Child.Third -> ThirdPage(
                         component = child.component,
                         modifier = Modifier.fillMaxSize(),
                     )

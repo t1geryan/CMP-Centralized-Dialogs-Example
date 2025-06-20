@@ -18,6 +18,10 @@
     <string name="first_page_next_button_title">Go Next</string>
 
     <string name="second_page_title">Second Test Page</string>
+    <string name="second_page_navigate_third_button_title">Navigate To Third</string>
+
+    <string name="third_page_title">Third Test Page</string>
+    <string name="third_page_instruction">You navigated to the root layer from the inner one</string>
 
     <string name="dialogs_presenter_show_toast_title">Show Toast</string>
     <string name="dialogs_presenter_toast_message">Something happened!</string>

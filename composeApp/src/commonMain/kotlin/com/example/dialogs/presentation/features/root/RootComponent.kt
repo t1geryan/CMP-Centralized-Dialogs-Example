@@ -32,6 +32,8 @@ import com.example.dialogs.presentation.features.login.DefaultLoginComponent
 import com.example.dialogs.presentation.features.login.LoginComponent
 import com.example.dialogs.presentation.features.main.DefaultMainComponent
 import com.example.dialogs.presentation.features.main.MainComponent
+import com.example.dialogs.presentation.features.third.DefaultThirdComponent
+import com.example.dialogs.presentation.features.third.ThirdComponent
 import com.example.dialogs.presentation.features.welcome.DefaultWelcomeComponent
 import com.example.dialogs.presentation.features.welcome.WelcomeComponent
 import kotlinx.serialization.Serializable
@@ -44,6 +46,7 @@ interface RootComponent : DialogHolder, StackNavigationComponent<RootComponent.C
         class Welcome(override val component: WelcomeComponent) : Child
         class Login(override val component: LoginComponent) : Child
         class Main(override val component: MainComponent) : Child
+        class Third(override val component: ThirdComponent) : Child
     }
 }
 
@@ -183,6 +186,7 @@ class DefaultRootComponent(
             Config.Welcome -> RootComponent.Child.Welcome(createWelcomeChild(componentContext))
             Config.Login -> RootComponent.Child.Login(createLoginChild(componentContext))
             Config.Main -> RootComponent.Child.Main(createMainChild(componentContext))
+            Config.Third -> RootComponent.Child.Third(createThirdTestChild(componentContext))
         }
 
     private fun createWelcomeChild(componentContext: ComponentContext): WelcomeComponent =
@@ -208,6 +212,17 @@ class DefaultRootComponent(
         DefaultMainComponent(
             componentContext = componentContext,
             onNavigateBack = onMinimize,
+            onNavigateToThird = {
+                navigation.pushNew(Config.Third)
+            }
+        )
+
+    private fun createThirdTestChild(componentContext: ComponentContext): ThirdComponent =
+        DefaultThirdComponent(
+            componentContext = componentContext,
+            onNavigateBack = {
+                navigation.pop()
+            }
         )
 
     @Serializable // kotlinx-serialization plugin must be applied
@@ -220,5 +235,8 @@ class DefaultRootComponent(
 
         @Serializable
         data object Main : Config
+
+        @Serializable
+        data object Third : Config
     }
 }
