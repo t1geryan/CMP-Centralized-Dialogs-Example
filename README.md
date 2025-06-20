@@ -145,10 +145,10 @@ Dialog models are declared as sealed interface implementations of `DialogModel`:
 ```kotlin
 @Immutable
 class Toast(
-  val message: String,
-  val duration: Duration = 1.seconds,
-  override val onDismiss: () -> Unit = {},
-  override val isLocal: Boolean = true,
+    val message: String,
+    val duration: Duration = 1.seconds,
+    override val onDismiss: () -> Unit = {},
+    override val isLocal: Boolean = true,
 ) : DialogModel
 ```
 `isLocal` here indicates whether the dialog is **local** (will be closed upon navigation) or **global** (will **not** be closed upon navigation)
@@ -186,14 +186,14 @@ Each `DialogModel` can define custom callbacks that will be called by the dialog
 ```kotlin
 @Immutable
 class ConfirmationDialog(
-  val title: String,
-  val message: String,
-  val onConfirm: () -> Unit,
-  val confirmTitle: String,
-  val onCancel: () -> Unit = {},
-  val cancelTitle: String?,
-  override val onDismiss: () -> Unit = {},
-  override val isLocal: Boolean = true,
+    val title: String,
+    val message: String,
+    val onConfirm: () -> Unit,
+    val confirmTitle: String,
+    val onCancel: () -> Unit = {},
+    val cancelTitle: String?,
+    override val onDismiss: () -> Unit = {},
+    override val isLocal: Boolean = true,
 ) : DialogModel
 ```
 
@@ -203,6 +203,33 @@ The UI handles these callbacks in the confirmation pane [14](#0-13) .
 
 The system automatically closes local dialogs when navigation occurs through the `subscribeOnWholeNavigation` mechanism. To keep it working, each navigation implementing Component should also implement `StackNavigationComponent` interface. So `RootComponent` will be able to detect navigation actions in the whole app and close dialogs.
 This ensures that local dialogs (where `isLocal = true`) are automatically dismissed when users navigate to different screens.
+
+## isDialogOpen
+
+`DialogHolder` allows screens to reactively monitor the state of openness of the dialog.
+```kotlin
+interface DialogsPresenterComponent {
+
+    val isDialogOpen: Value<Boolean>
+}
+```
+```kotlin
+class DefaultDialogsPresenterComponent(
+    componentContext: ComponentContext,
+    private val dialogHolder: DialogHolder,
+) : DialogsPresenterComponent, ComponentContext by componentContext {
+
+    override val isDialogOpen: Value<Boolean> = dialogHolder.isDialogOpen
+```
+```kotlin
+@Composable
+fun DialogsPresenterPane(
+    component: DialogsPresenterComponent,
+    modifier: Modifier = Modifier,
+) {
+    val isDialogOpen by component.isDialogOpen.subscribeAsState()
+}
+```
 
 ## Notes
 
