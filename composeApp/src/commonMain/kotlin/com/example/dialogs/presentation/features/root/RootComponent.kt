@@ -202,7 +202,6 @@ class DefaultRootComponent(
             onNavigateForward = {
                 navigation.replaceAll(Config.Main)
             },
-            onShowDialog = ::showDialog,
         )
 
     private fun createMainChild(componentContext: ComponentContext): MainComponent =
