@@ -16,6 +16,7 @@ import dialogsexample.composeapp.generated.resources.dialogs_presenter_confirmat
 import dialogsexample.composeapp.generated.resources.dialogs_presenter_confirmation_result_canceled
 import dialogsexample.composeapp.generated.resources.dialogs_presenter_confirmation_result_confirmed
 import dialogsexample.composeapp.generated.resources.dialogs_presenter_confirmation_title
+import dialogsexample.composeapp.generated.resources.dialogs_presenter_dismissed_title
 import dialogsexample.composeapp.generated.resources.dialogs_presenter_info_button_title
 import dialogsexample.composeapp.generated.resources.dialogs_presenter_info_message
 import dialogsexample.composeapp.generated.resources.dialogs_presenter_info_title
@@ -68,6 +69,7 @@ class DefaultDialogsPresenterComponent(
                     title = getString(Res.string.dialogs_presenter_info_title),
                     message = getString(Res.string.dialogs_presenter_info_message),
                     buttonTitle = getString(Res.string.dialogs_presenter_info_button_title),
+                    onDismiss = ::showDismissedToast,
                 )
             )
         }
@@ -98,7 +100,8 @@ class DefaultDialogsPresenterComponent(
                                 )
                             )
                         }
-                    }
+                    },
+                    onDismiss = ::showDismissedToast,
                 )
             )
         }
@@ -124,6 +127,17 @@ class DefaultDialogsPresenterComponent(
                         _sliderValue.update { newValue.toInt() }
                     },
                     stepsCount = Consts.Percent.MAX - Consts.Percent.MIN - 1U,
+                    onDismiss = ::showDismissedToast,
+                )
+            )
+        }
+    }
+
+    private fun showDismissedToast() {
+        scope.launch {
+            dialogHolder.showDialog(
+                DialogModel.Toast(
+                    message = getString(Res.string.dialogs_presenter_dismissed_title),
                 )
             )
         }

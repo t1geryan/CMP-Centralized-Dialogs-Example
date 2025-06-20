@@ -39,4 +39,5 @@
     <string name="dialogs_presenter_show_slider_title">Show Slider</string>
     <string name="dialogs_presenter_slider_title">Please select value</string>
     <string name="dialogs_presenter_slider_selected_value">Selected: %1$s</string>
+    <string name="dialogs_presenter_dismissed_title">Dismissed!</string>
 </resources>

@@ -12,7 +12,7 @@ sealed interface DialogModel {
     @Immutable
     class Toast(
         val message: String,
-        val duration: Duration = 3.seconds,
+        val duration: Duration = 1.seconds,
         override val onDismiss: () -> Unit = {},
         override val isLocal: Boolean = true,
     ) : DialogModel
