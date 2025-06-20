@@ -77,6 +77,10 @@ composeApp/
 │   └── iosMain/              # iOS-specific code
 ```
 
+## Class diagram
+
+![class diagram](images/architecture.png)
+
 ## Usage
 
 ### Passing DialogHolder to Screens
