@@ -1,8 +1,10 @@
 package com.example.dialogs.presentation.features.settings
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.example.dialogs.presentation.features.dialogs.DialogsPresenterComponent
 import com.example.dialogs.presentation.features.dialogs.DialogsPresenterPane
@@ -31,9 +33,13 @@ fun SettingsPage(
         title = stringResource(Res.string.settings_page_title),
         modifier = modifier,
     ) { paddingValues ->
-        DialogsPresenterPane(
-            component = dialogPresenterComponent,
-            modifier = Modifier.fillMaxSize().padding(paddingValues)
-        )
+        Box(
+            modifier = Modifier.fillMaxSize().padding(paddingValues),
+        ) {
+            DialogsPresenterPane(
+                component = dialogPresenterComponent,
+                modifier = Modifier.align(Alignment.BottomCenter)
+            )
+        }
     }
 }

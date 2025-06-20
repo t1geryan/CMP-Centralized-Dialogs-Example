@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import com.example.dialogs.presentation.features.dialogs.DialogsPresenterComponent
 import com.example.dialogs.presentation.features.dialogs.DialogsPresenterPane
 import com.example.dialogs.presentation.widgets.scaffold.AppPage
@@ -47,6 +48,7 @@ fun ThirdPage(
         ) {
             Text(
                 text = stringResource(Res.string.third_page_instruction),
+                textAlign = TextAlign.Center,
             )
             Expanded()
             DialogsPresenterPane(
