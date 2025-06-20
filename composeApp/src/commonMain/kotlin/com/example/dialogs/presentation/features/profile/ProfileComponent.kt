@@ -6,18 +6,18 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.Value
+import com.example.dialogs.presentation.contracts.NavigationChild
+import com.example.dialogs.presentation.contracts.StackNavigationComponent
 import com.example.dialogs.presentation.features.first.DefaultFirstComponent
 import com.example.dialogs.presentation.features.first.FirstComponent
 import com.example.dialogs.presentation.features.second.DefaultSecondComponent
 import com.example.dialogs.presentation.features.second.SecondComponent
 import kotlinx.serialization.Serializable
 
-interface ProfileComponent {
-    val childStack: Value<ChildStack<*, Child>>
-
-    sealed interface Child {
-        class First(val component: FirstComponent) : Child
-        class Second(val component: SecondComponent) : Child
+interface ProfileComponent : StackNavigationComponent<ProfileComponent.Child> {
+    sealed interface Child : NavigationChild {
+        class First(override val component: FirstComponent) : Child
+        class Second(override val component: SecondComponent) : Child
     }
 }
 
