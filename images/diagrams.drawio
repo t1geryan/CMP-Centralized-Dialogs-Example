@@ -1,0 +1,142 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.1.1 Chrome/132.0.6834.210 Electron/34.3.3 Safari/537.36" version="26.1.1">
+  <diagram name="Page-1" id="OEMw6FynRrXHkiKQt6B4">
+    <mxGraphModel dx="954" dy="1767" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-1" value="DialogHolder" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="100" y="110" width="200" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-2" value="+ isDialogOpen: Value&amp;lt;Boolean&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="vAFIA3MJLRMOz4TkGB4J-1" vertex="1">
+          <mxGeometry y="26" width="200" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-3" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="vAFIA3MJLRMOz4TkGB4J-1" vertex="1">
+          <mxGeometry y="52" width="200" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-4" value="+ showDialog(DialogModel): Unit" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="vAFIA3MJLRMOz4TkGB4J-1" vertex="1">
+          <mxGeometry y="60" width="200" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-5" value="Root Component" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="100" y="-20" width="200" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-6" value="+ dialog: Value&amp;lt;ChildSlot&amp;lt;*, DialogComponent&amp;gt;&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="vAFIA3MJLRMOz4TkGB4J-5" vertex="1">
+          <mxGeometry y="26" width="200" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.51;exitY=1.045;exitDx=0;exitDy=0;endArrow=block;endFill=0;exitPerimeter=0;" parent="1" source="vAFIA3MJLRMOz4TkGB4J-6" target="vAFIA3MJLRMOz4TkGB4J-1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="210" y="90" as="sourcePoint" />
+            <mxPoint x="209" y="60" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="200" y="52" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-45" value="Implements" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="vAFIA3MJLRMOz4TkGB4J-15" vertex="1" connectable="0">
+          <mxGeometry x="-0.1" y="3" relative="1" as="geometry">
+            <mxPoint x="37" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-23" value="RootPage" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="414" y="-25" width="160" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-24" value="Uses DialogModel and DialogComponent to create DialogComposable" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="vAFIA3MJLRMOz4TkGB4J-23" vertex="1">
+          <mxGeometry y="26" width="160" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-27" value="DialogModel" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="414" y="120" width="160" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-28" value="+ isLocal: Boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="vAFIA3MJLRMOz4TkGB4J-27" vertex="1">
+          <mxGeometry y="26" width="160" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-29" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="vAFIA3MJLRMOz4TkGB4J-27" vertex="1">
+          <mxGeometry y="52" width="160" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-30" value="+ onDismiss(): Unit" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="vAFIA3MJLRMOz4TkGB4J-27" vertex="1">
+          <mxGeometry y="60" width="160" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-31" value="Toast" style="html=1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="370" y="256" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-32" value="Info" style="html=1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="510" y="256" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-33" value="Confirmation" style="html=1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="370" y="336" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-34" value="BottomSheet" style="html=1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="510" y="336" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;" parent="1" source="vAFIA3MJLRMOz4TkGB4J-31" target="vAFIA3MJLRMOz4TkGB4J-27" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="230" y="266" as="sourcePoint" />
+            <mxPoint x="230" y="222" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="440" y="231" />
+              <mxPoint x="494" y="231" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;" parent="1" source="vAFIA3MJLRMOz4TkGB4J-32" target="vAFIA3MJLRMOz4TkGB4J-27" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="465" y="266" as="sourcePoint" />
+            <mxPoint x="504" y="216" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="560" y="231" />
+              <mxPoint x="494" y="231" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;" parent="1" source="vAFIA3MJLRMOz4TkGB4J-33" target="vAFIA3MJLRMOz4TkGB4J-27" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="475" y="276" as="sourcePoint" />
+            <mxPoint x="514" y="226" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="440" y="316" />
+              <mxPoint x="494" y="316" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;" parent="1" source="vAFIA3MJLRMOz4TkGB4J-34" target="vAFIA3MJLRMOz4TkGB4J-27" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="485" y="286" as="sourcePoint" />
+            <mxPoint x="524" y="236" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="560" y="316" />
+              <mxPoint x="494" y="316" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="vAFIA3MJLRMOz4TkGB4J-23" target="vAFIA3MJLRMOz4TkGB4J-5" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-47" value="Uses" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="vAFIA3MJLRMOz4TkGB4J-39" vertex="1" connectable="0">
+          <mxGeometry x="0.2105" y="-2" relative="1" as="geometry">
+            <mxPoint x="5" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="vAFIA3MJLRMOz4TkGB4J-23" target="vAFIA3MJLRMOz4TkGB4J-27" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="410" y="25" as="sourcePoint" />
+            <mxPoint x="310" y="25" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-46" value="Uses" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="vAFIA3MJLRMOz4TkGB4J-40" vertex="1" connectable="0">
+          <mxGeometry x="-0.2308" relative="1" as="geometry">
+            <mxPoint x="16" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-48" value="Uses" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="vAFIA3MJLRMOz4TkGB4J-41" target="vAFIA3MJLRMOz4TkGB4J-1" edge="1">
+          <mxGeometry x="-0.1333" y="20" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-41" value="SomeScreenComponent" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="100" y="256" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="vAFIA3MJLRMOz4TkGB4J-42" value="Calls showDialog with specified DialogModel and receives user&#39;s interactions result in callbacks." style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="vAFIA3MJLRMOz4TkGB4J-41" vertex="1">
+          <mxGeometry y="26" width="200" height="54" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
