@@ -1,3 +1,10 @@
+[![License](https://img.shields.io/badge/License-MIT-blue)](https://choosealicense.com/licenses/mit/)
+![badge][badge-android]
+![badge][badge-ios]
+![badge][badge-jvm]
+
+---
+
 # CMP Centralized Dialogs Example
 
 A Compose Multiplatform application demonstrating centralized dialog management across Android, iOS, and Desktop platforms using the Decompose navigation library.
@@ -248,3 +255,7 @@ The system uses Decompose's `ChildSlot` for dialog management and prevents multi
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
+
+[badge-android]: http://img.shields.io/badge/-Android-6EDB8D.svg?style=flat
+[badge-jvm]: http://img.shields.io/badge/-JVM-DB413D.svg?style=flat
+[badge-ios]: http://img.shields.io/badge/-iOS-CDCDCD.svg?style=flat
