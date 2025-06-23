@@ -252,6 +252,11 @@ The system uses Decompose's `ChildSlot` for dialog management and prevents multi
 - **Decompose**: Navigation and component management
 - **Koin**: Dependency injection to inject DialogHolder with DI instead of passing callback clo
 
+## Demonstration
+<img src="images/flow_android.gif" width="25%"/>   <img src="images/flow_ios.gif" width="25%"/>
+<br><br>
+<img src="images/flow_desktop.gif" width="75%"/>
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
