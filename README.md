@@ -86,7 +86,7 @@ composeApp/
 
 ## Class diagram
 
-![class diagram](images/architecture.png)
+![class diagram](images/architecture.jpg)
 
 ## Usage
 
